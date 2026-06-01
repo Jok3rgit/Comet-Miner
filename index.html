@@ -69,6 +69,10 @@
           playerSrc = "https://jok3rgit.github.io/Comet-Miner/images/playership1.png";
         }
       }
+
+      setInterval(() => {
+        changeFrame();
+      }, 500)
       
       //hitbox check
       function checkCollision(elA, elB) {
