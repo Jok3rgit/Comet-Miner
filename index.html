@@ -48,7 +48,7 @@
   <body>
     <div class="game-screen">
       <div id="player">
-        <img src="https://jok3rgit.github.io/Comet-Miner/images/playership.png" />
+        <img src="https://jok3rgit.github.io/Comet-Miner/images/playership1.png" />
       </div>
 
       <div id="objects">
@@ -59,6 +59,17 @@
     </div>
       
     <script>
+      //player frames
+      function changeFrame() {
+        let playerSrc = document.getElementById("player").src;
+
+        if (playerSrc === "https://jok3rgit.github.io/Comet-Miner/images/playership1.png") {
+          playerSrc = "https://jok3rgit.github.io/Comet-Miner/images/playership2.png";
+        } else if (playerSrc === "https://jok3rgit.github.io/Comet-Miner/images/playership2.png") {
+          playerSrc = "https://jok3rgit.github.io/Comet-Miner/images/playership1.png";
+        }
+      }
+      
       //hitbox check
       function checkCollision(elA, elB) {
         const rA = elA.getBoundingClientRect();
