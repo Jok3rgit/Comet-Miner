@@ -107,29 +107,60 @@
       //player moves
       const player = document.getElementById("player");
 
-      let x = 0;
-      let y = 0;
+      let x = 17.5 + "rem";
+      let y = 30 + "rem";
 
       window.addEventListener("keydown", (event) => {
 
       if (event.key === "w") {
-          y -= 5;
+        let targetY = y - 5;
+
+        setInterval(() => {
+          if (y !== targetY) {
+            y -= 0.5;
+
+            player.style.top = y + "rem";
+          }
+        }, 100);
       }
 
       if (event.key === "s") {
-          y += 5;
+        let targetY = y + 5;
+
+        setInterval(() => {
+          if (targetY !== y) {
+            y += 0.5;
+
+            player.style.top = y + "rem";
+          }
+        }, 100)
       }
 
       if (event.key === "d") {
-          x += 5;
+        let targetX = x + 5;
+
+        setInterval(() => {
+          if (targetX !== x) {
+            x += 0.5;
+
+            player.style.left = x + "rem";
+          }
+        }, 100)
       }
 
       if (event.key === "a") {
-          x -= 5;
-      }
+        let targetX = x - 5;
 
-      player.style.top = y + "rem";
-      player.style.left = x + "rem";
+        setInterval(() => {
+          if ((targetX !== x) && ((x !== 0) || (x !== 60))) {
+            x -= 0.5;
+
+            player.style.left = x + "rem";
+          }
+        }, 100)
+      }
+      
+        
       });
       
     </script>
