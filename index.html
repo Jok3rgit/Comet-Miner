@@ -61,12 +61,13 @@
     <script>
       //player frames
       function changeFrame() {
-        let playerSrc = document.getElementById("player").src;
+        let playerImg = document.querySelector("#player img");
+        let playerSrc = playerImg.src;
 
         if (playerSrc === "https://jok3rgit.github.io/Comet-Miner/images/playership1.png") {
-          playerSrc = "https://jok3rgit.github.io/Comet-Miner/images/playership2.png";
+          playerImg.src = "https://jok3rgit.github.io/Comet-Miner/images/playership2.png";
         } else if (playerSrc === "https://jok3rgit.github.io/Comet-Miner/images/playership2.png") {
-          playerSrc = "https://jok3rgit.github.io/Comet-Miner/images/playership1.png";
+          playerImg.src = "https://jok3rgit.github.io/Comet-Miner/images/playership1.png";
         }
       }
 
@@ -107,60 +108,63 @@
       //player moves
       const player = document.getElementById("player");
 
-      let x = 17.5 + "rem";
-      let y = 30 + "rem";
+      let x = 17.5;
+      let y = 30;
+      let isMoving = false;
+      let moveInterval = null;
 
       window.addEventListener("keydown", (event) => {
+        if (isMoving) return; // Prevent multiple movements
 
-      if (event.key === "w") {
-        let targetY = y - 5;
+        const maxX = 55; // 60 - 5 (player width)
+        const maxY = 30; // 35 - 5 (player height)
+        const minX = 0;
+        const minY = 0;
 
-        setInterval(() => {
-          if (y !== targetY) {
-            y -= 0.5;
+        const movePlayer = (targetX, targetY) => {
+          isMoving = true;
+          clearInterval(moveInterval);
 
-            player.style.top = y + "rem";
-          }
-        }, 100);
-      }
+          moveInterval = setInterval(() => {
+            if (targetX !== null) {
+              if (x < targetX) x = Math.min(x + 0.5, targetX);
+              else if (x > targetX) x = Math.max(x - 0.5, targetX);
+            }
 
-      if (event.key === "s") {
-        let targetY = y + 5;
-
-        setInterval(() => {
-          if (targetY !== y) {
-            y += 0.5;
-
-            player.style.top = y + "rem";
-          }
-        }, 100)
-      }
-
-      if (event.key === "d") {
-        let targetX = x + 5;
-
-        setInterval(() => {
-          if (targetX !== x) {
-            x += 0.5;
+            if (targetY !== null) {
+              if (y < targetY) y = Math.min(y + 0.5, targetY);
+              else if (y > targetY) y = Math.max(y - 0.5, targetY);
+            }
 
             player.style.left = x + "rem";
-          }
-        }, 100)
-      }
+            player.style.top = y + "rem";
 
-      if (event.key === "a") {
-        let targetX = x - 5;
+            if (x === targetX && y === targetY) {
+              clearInterval(moveInterval);
+              isMoving = false;
+            }
+          }, 50);
+        };
 
-        setInterval(() => {
-          if ((targetX !== x) && ((x !== 0) || (x !== 60))) {
-            x -= 0.5;
+        if (event.key === "w" && y > minY) {
+          let targetY = Math.max(y - 5, minY);
+          movePlayer(null, targetY);
+        }
 
-            player.style.left = x + "rem";
-          }
-        }, 100)
-      }
-      
-        
+        if (event.key === "s" && y < maxY) {
+          let targetY = Math.min(y + 5, maxY);
+          movePlayer(null, targetY);
+        }
+
+        if (event.key === "d" && x < maxX) {
+          let targetX = Math.min(x + 5, maxX);
+          movePlayer(targetX, null);
+        }
+
+        if (event.key === "a" && x > minX) {
+          let targetX = Math.max(x - 5, minX);
+          movePlayer(targetX, null);
+        }
       });
       
     </script>
